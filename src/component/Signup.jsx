@@ -13,23 +13,34 @@ const Signup = () => {
     const [isEmail, setIsEmail] = useState(false)
     const [isPwd, setIsPwd] = useState('')
 
+    const [emailMsg, setEmailMsg] = useState('')
+    const [pwdMsg, setPwdMsg] = useState('')
+
     let navigate = useNavigate();
 
 
     const onCheckEmail = useCallback( (e) => {
-        const emailRegex = /[a-z0-9]+@[a-z]/
         const currentEmail = e.target.value
-        setEmail(currentEmail)
-    
-        // emailRegax를 사용해서 유효성 검사
+        const checkEmail = currentEmail.includes('@')
+        if (checkEmail === false) {
+            setEmailMsg('잘못된 이메일 형식입니다. @가 들어가야합니다.')
+        }
+        else {
+            setEmailMsg('')
+            setEmail(currentEmail)
+        } 
+
     }, [])
 
     const onCheckPwd = useCallback( (e) => {
         const currentPwd = String(e.target.value)
-        setPwd(currentPwd)
         
         if (currentPwd.length < 8) {
-
+            setPwdMsg('잘못된 비밀번호 형식입니다. 8자리이상이어야합니다.')
+        }
+        else {
+            setPwdMsg('')
+            setPwd(currentPwd)
         }
     }, [])
 
@@ -64,10 +75,12 @@ const Signup = () => {
                 <p>EMAIL</p>
                 <input data-testid="email-input" onChange={onCheckEmail}/>
             </div>
+            <span>{emailMsg}</span>
             <div className='field'>
                 <p>PASSWORD</p>
                 <input data-testid="password-input" onChange={onCheckPwd}/>
             </div>
+            <span>{pwdMsg}</span>
             <div className='field'>
                 <button data-testid="signup-button" type="submit" onClick={onSubmit}>회원가입</button>
             </div>
