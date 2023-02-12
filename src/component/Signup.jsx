@@ -24,6 +24,16 @@ const Signup = () => {
         // emailRegax를 사용해서 유효성 검사
     }, [])
 
+    const onCheckPwd = useCallback( (e) => {
+        const currentPwd = String(e.target.value)
+        setPwd(currentPwd)
+        
+        if (currentPwd.length < 8) {
+
+        }
+    }, [])
+
+
     const onSubmit = useCallback(
         async (e) => {
           e.preventDefault()
@@ -31,21 +41,22 @@ const Signup = () => {
             await axios
               .post(TOP_API+'/auth/signup', {
                 email: email,
+                password: pwd
               })
               .then((res) => {
                 console.log('response:', res)
-                if (res.status === 200) {
-                  navigate('/signin}')
+                if (res.status === 201) {
+                  navigate('/signin')
                 }
               })
           } catch (err) {
             console.error(err)
           }
         },
-        [email, navigate]
+        [email, pwd, navigate]
       )
 
-      
+
     return (
         <div className='container'>
             <h1>Signup</h1>
@@ -55,10 +66,10 @@ const Signup = () => {
             </div>
             <div className='field'>
                 <p>PASSWORD</p>
-                <input data-testid="password-input" />
+                <input data-testid="password-input" onChange={onCheckPwd}/>
             </div>
             <div className='field'>
-                <button data-testid="signup-button" onClick={onSubmit}>회원가입</button>
+                <button data-testid="signup-button" type="submit" onClick={onSubmit}>회원가입</button>
             </div>
         </div>
     );
