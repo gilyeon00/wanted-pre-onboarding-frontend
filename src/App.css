@@ -1,0 +1,11 @@
+.field{
+    display: flex;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+}
+
+.container{
+    text-align: center;
+    padding-top: 30vh;
+}

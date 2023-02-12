@@ -1,8 +1,8 @@
 # wanted-pre-onboarding-frontend
 
- - [ ] Create React App을 이용해 과제를 구현해주세요
+ - [x] Create React App을 이용해 과제를 구현해주세요
 
- - [ ] 함수 컴포넌트를 이용해서 진행해주세요
+ - [x] 함수 컴포넌트를 이용해서 진행해주세요
 
 ## README.md 필수 내용
  - [ ] 프로젝트의 실행 방법
@@ -18,8 +18,8 @@
     기능과 직접적인 연관이 없는 설정관련 라이브러리(craco, dotenv 등)
 
 # 1. 로그인 / 회원가입
- - [ ] /signup 경로에 회원가입 기능을 개발해주세요
- - [ ] /signin 경로에 로그인 기능을 개발해주세요
+ - [x] /signup 경로에 회원가입 기능을 개발해주세요
+ - [x] /signin 경로에 로그인 기능을 개발해주세요
 
  - [ ] 페이지 안에 이메일 input, 비밀번호 input, 제출 button이 포함된 형태로 구성해주세요
 이메일 input에 data-testid="email-input" 속성을 부여해주세요
