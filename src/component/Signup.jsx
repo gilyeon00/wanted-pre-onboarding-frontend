@@ -5,16 +5,16 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
-    const TOP_API = 'https://pre-onboarding-selection-task.shop'
+    const BASE_URL = 'https://pre-onboarding-selection-task.shop'
 
     const [email, setEmail] = useState('')
     const [pwd, setPwd] = useState('')
 
-    const [isEmail, setIsEmail] = useState(false)
-    const [isPwd, setIsPwd] = useState('')
-
     const [emailMsg, setEmailMsg] = useState('')
     const [pwdMsg, setPwdMsg] = useState('')
+
+    const [isEmail, setIsEmail] = useState(false)
+    const [isPwd, setIsPwd] = useState(false)
 
     let navigate = useNavigate();
 
@@ -24,10 +24,12 @@ const Signup = () => {
         const checkEmail = currentEmail.includes('@')
         if (checkEmail === false) {
             setEmailMsg('잘못된 이메일 형식입니다. @가 들어가야합니다.')
+            setIsEmail(false)
         }
         else {
             setEmailMsg('')
             setEmail(currentEmail)
+            setIsEmail(true)
         } 
 
     }, [])
@@ -37,10 +39,12 @@ const Signup = () => {
         
         if (currentPwd.length < 8) {
             setPwdMsg('잘못된 비밀번호 형식입니다. 8자리이상이어야합니다.')
+            setIsPwd(false)
         }
         else {
             setPwdMsg('')
             setPwd(currentPwd)
+            setIsPwd(true)
         }
     }, [])
 
@@ -50,9 +54,12 @@ const Signup = () => {
           e.preventDefault()
           try {
             await axios
-              .post(TOP_API+'/auth/signup', {
+              .post(BASE_URL+'/auth/signup', {
                 email: email,
-                password: pwd
+                password: pwd,
+                headers: {
+                    "Content-Type": "application/json",
+                }
               })
               .then((res) => {
                 console.log('response:', res)
@@ -82,7 +89,8 @@ const Signup = () => {
             </div>
             <span>{pwdMsg}</span>
             <div className='field'>
-                <button data-testid="signup-button" type="submit" onClick={onSubmit}>회원가입</button>
+                <button data-testid="signup-button" type="submit" 
+                  onClick={onSubmit} disabled={!(isEmail && isPwd)} >회원가입</button>
             </div>
         </div>
     );

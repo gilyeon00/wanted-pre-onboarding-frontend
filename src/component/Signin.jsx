@@ -4,13 +4,16 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Signin = () => {
-    const TOP_API = 'https://pre-onboarding-selection-task.shop'
+    const BASE_URL = 'https://pre-onboarding-selection-task.shop'
 
     const [email, setEmail] = useState('')
     const [pwd, setPwd] = useState('')
 
     const [emailMsg, setEmailMsg] = useState('')
     const [pwdMsg, setPwdMsg] = useState('')
+
+    const [isEmail, setIsEmail] = useState(false)
+    const [isPwd, setIsPwd] = useState(false)
 
     let navigate = useNavigate();
 
@@ -20,10 +23,12 @@ const Signin = () => {
         const checkEmail = currentEmail.includes('@')
         if (checkEmail === false) {
             setEmailMsg('잘못된 이메일 형식입니다. @가 들어가야합니다.')
+            setIsEmail(false)
         }
         else {
             setEmailMsg('')
             setEmail(currentEmail)
+            setIsEmail(true)
         } 
 
     }, [])
@@ -33,10 +38,12 @@ const Signin = () => {
         
         if (currentPwd.length < 8) {
             setPwdMsg('잘못된 비밀번호 형식입니다. 8자리이상이어야합니다.')
+            setIsPwd(false)
         }
         else {
             setPwdMsg('')
             setPwd(currentPwd)
+            setIsPwd(true)
         }
     }, [])
 
@@ -46,14 +53,17 @@ const Signin = () => {
           e.preventDefault()
           try {
             await axios
-              .post(TOP_API+'/auth/signin', {
+              .post(BASE_URL+'/auth/signin', {
                 email: email,
-                password: pwd
+                password: pwd,
+                headers: {
+                    "Content-Type": "application/json",
+                }
               })
               .then((res) => {
-                console.log('response:', res)
                 if (res.status === 200) {
-                  navigate('/todo')
+                    console.log('response:', res)
+                    navigate('/todo')
                 }
               })
           } catch (err) {
@@ -78,7 +88,8 @@ const Signin = () => {
             </div>
             <span>{pwdMsg}</span>
             <div className='field'>
-                <button data-testid="signin-button" onClick={onSubmit}>로그인</button>
+                <button data-testid="signin-button" 
+                    onClick={onSubmit} disabled={!(isEmail && isPwd)} >로그인</button>
             </div>
 
         </div>
